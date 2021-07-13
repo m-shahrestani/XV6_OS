@@ -5,8 +5,8 @@
     
 int main(int argc, char *argv[]){
 
+  // hello system call -> print hello world !
   hello();
-  printf(1,"\n");
   exit();
-
+  
 }
