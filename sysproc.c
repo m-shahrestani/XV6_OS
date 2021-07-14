@@ -93,6 +93,6 @@ sys_uptime(void)
 // simple system calls to return hello world !
 int
 sys_hello(void){
-  cprintf("Hello world !");
+  cprintf("Hello world !\n");
   return 0;
 }
