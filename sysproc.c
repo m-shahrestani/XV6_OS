@@ -90,9 +90,7 @@ sys_uptime(void)
   return xticks;
 }
 
-// simple system calls to return hello world !
 int
 sys_hello(void){
-  cprintf("Hello world !\n");
-  return 0;
+  return hello();
 }
