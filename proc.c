@@ -539,3 +539,12 @@ hello(void)
   cprintf("Hello world !\n");
   return 0;
 }
+
+// clone system call
+// we use this system call to clone a process and use it like thread !
+// we use fork system call code and changed it to write clone system call
+int
+clone(void){
+  cprintf("this is clone system call");
+  return 0;
+}

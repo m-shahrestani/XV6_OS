@@ -94,3 +94,8 @@ int
 sys_hello(void){
   return hello();
 }
+
+int
+sys_clone(void){
+  return clone();
+}
