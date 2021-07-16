@@ -184,6 +184,7 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_UserProgram\
+	_clone_test\
 	# _comment\
 
 fs.img: mkfs README $(UPROGS)
@@ -256,6 +257,7 @@ EXTRA=\
 	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c zombie.c\
 	printf.c umalloc.c\
 	UserProgram.c\
+	clone_test.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 
