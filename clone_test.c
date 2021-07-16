@@ -3,10 +3,9 @@
 # include "user.h"
     
     
-int main(){
-
+int main()
+{
   // this is a test for clone system call
   // clone()
-  exit();
-  
+  exit(); 
 }

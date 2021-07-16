@@ -3,10 +3,9 @@
 # include "user.h"
     
     
-int main(){
-
+int main()
+{
   // hello system call -> print hello world !
   hello();
-  exit();
-  
+  exit(); 
 }

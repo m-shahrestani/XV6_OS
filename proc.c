@@ -543,8 +543,79 @@ hello(void)
 // clone system call
 // we use this system call to clone a process and use it like thread !
 // we use fork system call code and changed it to write clone system call
+// clone : (arg(s) , stack , function)
 int
-clone(void){
-  cprintf("this is clone system call");
-  return 0;
+clone(void)
+{
+  cprintf("running clone system call\n");
+  // clone inputs
+	void *arg;
+	void *stack;
+  void(*function)(void*);
+  // father process
+  struct proc *father_process = myproc();
+
+	if(argptr(0, (void*)&arg, sizeof(arg)) == -1)
+  {
+    cprintf("Error in arg(s)");
+		return -1;
+  }
+	if(argptr(1, (void*)&stack, sizeof(stack)) == -1)
+  {
+    cprintf("Error is stack");
+		return -1;
+	}
+  if(argptr(2, (void*)&function, sizeof(function)) == -1)
+  {
+    cprintf("Error in function");
+		return -1;
+  }
+  if (father_process->sz < (uint)stack + PGSIZE)
+  {
+    cprintf("There isn't enough storage in father process");
+    return -1;
+  }
+
+  int pid;
+  uint stack_addr = (uint)stack;
+  struct proc *child_process;
+
+  // Allocate process.
+  if((child_process = allocproc()) == 0)
+  {
+    cprintf("Can't create child process");
+    return -1;
+  }
+
+  // Copy process state from proc.
+  child_process->sz = father_process->sz;
+  child_process->pgdir = father_process->pgdir ; // we do this to use child process as a thread
+  child_process->parent = father_process;
+  *child_process->tf = *father_process->tf;
+  child_process->tf->esp = stack_addr + PGSIZE - 2*sizeof(uint);
+  child_process->thread_stack_address =  stack_addr;
+  uint thread_args[2];
+  thread_args[0] = 0xffffffff; // fake return PC
+  thread_args[1] = (uint)arg;
+  copyout(child_process->pgdir, child_process->tf->esp, thread_args, 8);
+  // Clear %eax so that fork returns 0 in the child.
+  child_process->tf->eax = 0;
+  child_process->tf->eip = (uint)function;
+	child_process->tf->ebp = child_process->tf->esp;
+  for(int i = 0; i < NOFILE; i++)
+    if(father_process->ofile[i])
+    {
+      child_process->ofile[i] = filedup(father_process->ofile[i]);
+    }
+  child_process->cwd = idup(father_process->cwd);
+  safestrcpy(child_process->name, father_process->name, sizeof(father_process->name));
+  pid = child_process->pid;
+
+  acquire(&ptable.lock);
+
+  child_process->state = RUNNABLE;
+
+  release(&ptable.lock);
+
+  return pid;
 }
