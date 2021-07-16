@@ -532,3 +532,9 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int
+join(void)
+{
+  return 2111;
+}

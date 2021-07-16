@@ -91,7 +91,7 @@ sys_uptime(void)
 }
 
 int
-sys_helloworld(void)
+sys_join(void)
 {
-  return 2111;
+  return join();
 }
