@@ -576,9 +576,9 @@ clone(void)
     return -1;
   }
 
+  struct proc *child_process;
   int pid;
   uint stack_addr = (uint)stack;
-  struct proc *child_process;
 
   // Allocate process.
   if((child_process = allocproc()) == 0)
@@ -597,7 +597,7 @@ clone(void)
   uint thread_args[2];
   thread_args[0] = 0xffffffff; // fake return PC
   thread_args[1] = (uint)arg;
-  copyout(child_process->pgdir, child_process->tf->esp, thread_args, 8);
+  copyout(child_process->pgdir, child_process->tf->esp, thread_args, 2*sizeof(uint));
   // Clear %eax so that fork returns 0 in the child.
   child_process->tf->eax = 0;
   child_process->tf->eip = (uint)function;
