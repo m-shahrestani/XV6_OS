@@ -3,6 +3,6 @@
 #include "user.h"
 
 int main() {
-    printf(1, "Hello join.\n", join());
+    join();
     return 0;
 }
