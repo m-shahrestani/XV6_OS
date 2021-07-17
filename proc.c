@@ -533,41 +533,52 @@ procdump(void)
   }
 }
 
+// Wait for a child process to exit and return its pid.
+// Return -1 if this process has no children.
+// We use wait function to create join function.
 int
 join(void)
 {
+  cprintf("join syscall is running.\n");
   struct proc *p;
   int havethreads, pid;
-  
+  struct proc *curproc = myproc();
+  // empty stack
+  void **stack;
+  if(argptr(0, (void*)&stack, sizeof(stack) == -1)) {
+    cprintf("No stack.\n");
+		return -1;
+  }
+
   acquire(&ptable.lock);
   for(;;){
-    // Scan through table looking for exited children.
+    // Scan through table looking for exited threads.
     havethreads = 0;
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->parent != proc)
+      if(p->parent != curproc || p->pgdir != curproc->pgdir)
         continue;
       havethreads = 1;
       if(p->state == ZOMBIE){
         // Found one.
         pid = p->pid;
-        p->tstack = 0;
         p->pid = 0;
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
         p->state = UNUSED;
+        *((int*)((int*)stack))=p->tstack;
         release(&ptable.lock);
         return pid;
       }
     }
 
     // No point waiting if we don't have any children.
-    if(!havethreads || proc->killed){
+    if(!havethreads || curproc->killed){
       release(&ptable.lock);
       return -1;
     }
 
     // Wait for children to exit.  (See wakeup1 call in proc_exit.)
-    sleep(proc, &ptable.lock);  //DOC: wait-sleep
+    sleep(curproc, &ptable.lock);  //DOC: wait-sleep
   }
 }
