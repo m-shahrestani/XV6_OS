@@ -91,6 +91,18 @@ sys_uptime(void)
 }
 
 int
+sys_hello(void)
+{
+  return hello();
+}
+
+int
+sys_clone(void)
+{
+  return clone();
+}
+
+int
 sys_join(void)
 {
   return join();
