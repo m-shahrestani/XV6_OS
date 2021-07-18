@@ -25,7 +25,7 @@ int sleep(int);
 int uptime(void);
 int hello(void);
 int clone(void*, void*, void(*fcn)(void*)); // (arg(s) , stack , function)
-int join(void);
+int join(void *); // stack
 
 // ulib.c
 int stat(const char*, struct stat*);
