@@ -592,7 +592,8 @@ clone(void)
   child_process->pgdir = father_process->pgdir ; // we do this to use child process as a thread
   child_process->parent = father_process;
   *child_process->tf = *father_process->tf;
-  child_process->tf->esp = stack_addr + PGSIZE - 2*sizeof(uint);
+  child_process->tf->ebp = stack_addr + PGSIZE - 2*sizeof(uint);
+  child_process->tf->esp = child_process->tf->ebp;
   child_process->thread_stack_address =  stack_addr;
   uint thread_args[2];
   thread_args[0] = 0xffffffff; // fake return PC
@@ -601,7 +602,6 @@ clone(void)
   // Clear %eax so that fork returns 0 in the child.
   child_process->tf->eax = 0;
   child_process->tf->eip = (uint)function;
-	child_process->tf->ebp = child_process->tf->esp;
   for(int i = 0; i < NOFILE; i++)
     if(father_process->ofile[i])
     {
@@ -618,4 +618,54 @@ clone(void)
   release(&ptable.lock);
 
   return pid;
+}
+
+// Wait for a child process to exit and return its pid.
+// Return -1 if this process has no children.
+// We use wait function to create join function.
+int
+join(void)
+{
+  cprintf("join syscall is running.\n");
+  struct proc *p;
+  int havethreads, pid;
+  struct proc *curproc = myproc();
+  // empty stack
+  void **stack;
+  if(argptr(0, (void*)&stack, sizeof(stack) == -1)) {
+    cprintf("No stack.\n");
+		return -1;
+  }
+
+  acquire(&ptable.lock);
+  for(;;){
+    // Scan through table looking for exited threads.
+    havethreads = 0;
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->parent != curproc || p->pgdir != curproc->pgdir)
+        continue;
+      havethreads = 1;
+      if(p->state == ZOMBIE){
+        // Found one.
+        pid = p->pid;
+        p->pid = 0;
+        p->parent = 0;
+        p->name[0] = 0;
+        p->killed = 0;
+        p->state = UNUSED;
+        *((int*)((int*)stack))=p->thread_stack_address;
+        release(&ptable.lock);
+        return pid;
+      }
+    }
+
+    // No point waiting if we don't have any children.
+    if(!havethreads || curproc->killed){
+      release(&ptable.lock);
+      return -1;
+    }
+
+    // Wait for children to exit.  (See wakeup1 call in proc_exit.)
+    sleep(curproc, &ptable.lock);  //DOC: wait-sleep
+  }
 }

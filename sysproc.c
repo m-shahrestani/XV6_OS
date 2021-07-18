@@ -101,3 +101,9 @@ sys_clone(void)
 {
   return clone();
 }
+
+int
+sys_join(void)
+{
+  return join();
+}
