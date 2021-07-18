@@ -586,7 +586,7 @@ clone(void)
     cprintf("Can't create child process");
     return -1;
   }
-  father_process->threads++;
+
   // Copy process state from proc.
   child_process->sz = father_process->sz;
   child_process->pgdir = father_process->pgdir ; // we do this to use child process as a thread
@@ -654,10 +654,7 @@ join(void)
         p->killed = 0;
         p->state = UNUSED;
         *((int*)((int*)stack))=p->thread_stack_address;
-        kfree(p->kstack);
-        p->kstack = 0;
         release(&ptable.lock);
-        curproc->threads--;
         return pid;
       }
     }
