@@ -1,4 +1,4 @@
-// this is a test for thread functions
+// tests for thread functions
 #include "types.h"
 #include "stat.h"
 #include "user.h"
