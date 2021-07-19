@@ -186,6 +186,7 @@ UPROGS=\
 	_UserProgram\
 	_clone_test\
 	_join_test\
+	_thread_test\
 	# _comment\
 
 fs.img: mkfs README $(UPROGS)
@@ -260,6 +261,7 @@ EXTRA=\
 	UserProgram.c\
 	clone_test.c\
 	join_test.c\
+	thread_test.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 

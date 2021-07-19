@@ -547,7 +547,7 @@ hello(void)
 int
 clone(void)
 {
-  cprintf("running clone system call\n");
+  //cprintf("running clone system call\n");
   // clone inputs
 	void *arg;
 	void *stack;
@@ -586,7 +586,7 @@ clone(void)
     cprintf("Can't create child process");
     return -1;
   }
-
+  father_process->threads++;
   // Copy process state from proc.
   child_process->sz = father_process->sz;
   child_process->pgdir = father_process->pgdir ; // we do this to use child process as a thread
@@ -626,7 +626,7 @@ clone(void)
 int
 join(void)
 {
-  cprintf("join syscall is running.\n");
+  //cprintf("join syscall is running.\n");
   struct proc *p;
   int havethreads, pid;
   struct proc *curproc = myproc();
@@ -635,7 +635,7 @@ join(void)
   if(argptr(0, (void*)&stack, sizeof(stack) == -1)) {
     cprintf("No stack.\n");
 		return -1;
-  }
+}
 
   acquire(&ptable.lock);
   for(;;){
@@ -654,7 +654,10 @@ join(void)
         p->killed = 0;
         p->state = UNUSED;
         *((int*)((int*)stack))=p->thread_stack_address;
+        kfree(p->kstack);
+        p->kstack = 0;
         release(&ptable.lock);
+        curproc->threads--;
         return pid;
       }
     }
