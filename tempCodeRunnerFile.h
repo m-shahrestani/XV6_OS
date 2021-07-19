@@ -1,0 +1,1 @@
+#define PGSIZE          4096    // bytes mapped by a page

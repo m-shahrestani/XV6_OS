@@ -626,7 +626,7 @@ clone(void)
 int
 join(void)
 {
-  //cprintf("join syscall is running.\n");
+  cprintf("join syscall is running.\n");
   struct proc *p;
   int havethreads, pid;
   struct proc *curproc = myproc();
@@ -635,7 +635,7 @@ join(void)
   if(argptr(0, (void*)&stack, sizeof(stack) == -1)) {
     cprintf("No stack.\n");
 		return -1;
-}
+  }
 
   acquire(&ptable.lock);
   for(;;){

@@ -7,7 +7,7 @@
 int
 thread_create(void *arg, void (func)(void*))
 {
-    void *stack= malloc(PGSIZE*2);
+    void *stack= malloc(PGSIZE);
     if((uint)stack % PGSIZE)
     {
         stack = stack + (PGSIZE - (uint)stack % PGSIZE);
@@ -21,7 +21,7 @@ int
 thread_join()
 {
     void *stack = malloc(sizeof(void*));
-	  int join_pid = join(&stack);
+	int join_pid = join(&stack);
     printf(1,"join_pid is: %d\n", join_pid);
     return join_pid;
 }
