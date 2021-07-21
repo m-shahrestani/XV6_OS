@@ -1,12 +1,12 @@
 # XV6-OS  
 OS final Project - Implementation of Thread in XV6 
 
+* [Mohammadreza Shahrestani](https://github.com/m-shahrestani "Mohammadreza Shahrestani")
+* [Seyed Nami Modarresi](https://github.com/SNamiMod "Seyed Nami Modarresi")  
+
 <img src=res/test4.png></img>  
 
 <img src=res/test5.png></img>  
-
-* [Mohammadreza Shahrestani](https://github.com/m-shahrestani "Mohammadreza Shahrestani")
-* [Seyed Nami Modarresi](https://github.com/SNamiMod "Seyed Nami Modarresi")  
 
 ## Description  
 NOTE: we have stopped maintaining the x86 version of xv6, and switched
