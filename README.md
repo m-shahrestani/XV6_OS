@@ -6,8 +6,6 @@ OS final Project - Implementation of Thread in XV6
 
 <img src=res/test4.png></img>  
 
-<img src=res/test5.png></img>  
-
 ## Description  
 NOTE: we have stopped maintaining the x86 version of xv6, and switched
 our efforts to the RISC-V version
