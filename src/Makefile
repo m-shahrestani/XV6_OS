@@ -185,7 +185,6 @@ UPROGS=\
 	_clone_test\
 	_join_test\
 	_thread_test\
-	_final_test\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)
@@ -259,7 +258,6 @@ EXTRA=\
 	clone_test.c\
 	join_test.c\
 	thread_test.c\
-	final_test\
 	printf.c umalloc.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\

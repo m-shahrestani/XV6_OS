@@ -23,5 +23,6 @@ thread_join()
     void *stack = malloc(sizeof(void*));
 	int join_pid = join(&stack);
     printf(1,"join_pid is: %d\n", join_pid);
+    free(stack);
     return join_pid;
 }

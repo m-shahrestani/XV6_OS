@@ -2,7 +2,7 @@
 #include "types.h"
 #include "stat.h"
 #include "user.h"
-#include "thread.h"
+#include "thread.c"
 
 int global = 0;
 int arrsum = 0;
@@ -58,11 +58,11 @@ int main()
   	// thread_join();
     // thread_join();
 
-    // for(int i = 0; i < 6; i++) {
-    //     thread_create((void *)&arr[i], &arr_sum);
-    //     thread_join();
-    // }
-    // printf(1,"*%d\n",arrsum);
+    for(int i = 0; i < 6; i++) {
+        thread_create((void *)&arr[i], &arr_sum);
+        thread_join();
+    }
+    printf(1,"*%d\n",arrsum);
 
     // for(int i = 0; i < 6; i++) {
     //     thread_create((void *)&arr[i], &arr_sum);
