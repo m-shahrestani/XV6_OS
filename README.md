@@ -1,5 +1,5 @@
 # XV6-OS  
-OS final Project - Implementation of Thread in XV6 
+OS final Project - Implementation of Thread in XV6  
 
 * [Mohammadreza Shahrestani](https://github.com/m-shahrestani "Mohammadreza Shahrestani")
 * [Seyed Nami Modarresi](https://github.com/SNamiMod "Seyed Nami Modarresi")  
